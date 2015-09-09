@@ -17,7 +17,8 @@ from werkzeug import secure_filename
 from flask.ext.bootstrap import Bootstrap
 
 # Other
-from functools import wraps
+import os, sys
+import printer
 
 app = Flask(__name__)
 app.config['SECRET_KEY']  = 'Bitch'
@@ -43,11 +44,13 @@ def next_is_valid(next):
     return True
 
 class User(UserMixin): #Inherit from UsrMixin class
-    
+
     '''Single User'''
-    USERS = {
-        'norman': 'christ',
-    }
+    user  = str(os.environ.get('WEBUSER'))
+    pword = str(os.environ.get('WEBPASS'))
+
+    USERS = { user : pword }
+
     
     def __init__(self, id):
         if not id in self.USERS:
@@ -114,9 +117,8 @@ class ToPrintForm(Form):
                                                                              'png','jpg','tiff'])])
     submit   = SubmitField('Submit')
 
-import printer
-printer = printer.Printer()
 
+printer = printer.Printer()
 @app.route('/upload',methods=['GET','POST'])
 @login_required
 def upload():
