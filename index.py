@@ -103,7 +103,7 @@ def allowed_file_types(ftypes): #fancy factory definition
 
     def _allowed_file_types(form, field):
         m = re.search(r'.([a-z]{3})$',field.data.filename)
-        if m.group(1) not in ftypes:
+        if m is None or m.group(1) not in ftypes:
             raise ValidationError(message)
         
     return _allowed_file_types
