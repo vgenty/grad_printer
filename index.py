@@ -110,8 +110,8 @@ def allowed_file_types(ftypes): #fancy factory definition
 
 class ToPrintForm(Form):
     document = FileField('Document to Print',validators=[validators.Required(),
-                                                         allowed_file_types(['pdf','txt','doc','docx'])])
-                         #allowed_max_size)
+                                                         allowed_file_types(['pdf','txt','doc','docx',
+                                                                             'png','jpg','tiff'])])
     submit   = SubmitField('Submit')
 
 import printer
