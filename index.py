@@ -1,5 +1,5 @@
 # Flask
-from flask import Flask, render_template, request, Response, redirect, url_for, flash, abort
+from flask import Flask, render_template, request, Response, redirect, url_for, flash, abort, session
 from flask.ext.script import Manager
 
 # Login
@@ -22,7 +22,12 @@ app = Flask(__name__)
 app.config['SECRET_KEY']  = 'Bitch'
 
 manager   = Manager(app)
+
 bootstrap = Bootstrap(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 
         
@@ -36,31 +41,27 @@ class UserNotFoundError(Exception):
 def next_is_valid(next):
     return True
 
-class User(UserMixin): #Inherit from UsrMixIn
+class User(UserMixin): #Inherit from UsrMixin class
     
-        '''Single User'''
-        USERS = {
-            # username: password
-            'norman': 'christ',
-        }
+    '''Single User'''
+    USERS = {
+        'norman': 'christ',
+    }
+    
+    def __init__(self, id):
+        if not id in self.USERS:
+            raise UserNotFoundError()
+        self.id = id
+        self.password = self.USERS[id]
         
-        def __init__(self, id):
-            if not id in self.USERS:
-                raise UserNotFoundError()
-            self.id = id
-            self.password = self.USERS[id]
-            
-        @classmethod
-        def get(self_class, id):
-            '''Return user instance of id, return None if not exist'''
-            try:
-                return self_class(id)
-            except UserNotFoundError:
-                return None
+    @classmethod
+    def get(self_class, id):
+        '''Return user instance of id, return None if not exist'''
+        try:
+            return self_class(id)
+        except UserNotFoundError:
+            return None
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
             
 @login_manager.user_loader
 def load_user(id):
@@ -82,13 +83,11 @@ def login():
         if (user and user.password == form.password.data):
             login_user(user)
         else:
-            flash('Username or password incorrect')
+            flash(u'Contact Vic for User/Pass')
             return redirect(url_for('login'))
-             
-        flash(u'Successfully logged in as %s' % form.username.data)
 
+        # Not sure what this does...
         next = request.args.get('next')
-        print next
         
         if not next_is_valid(next):
             return abort(400)
@@ -104,38 +103,16 @@ class ToPrintForm(Form):
 @app.route('/upload',methods=['GET','POST'])
 @login_required
 def upload():
-    name  = None
-    error = None
+
+    filename = None
     form = ToPrintForm()
     if form.validate_on_submit():
         filename = secure_filename(form.document.data.filename)
         form.document.data.save('/home/vgenty/web/uploads/' + filename)
+        session['filename'] = filename #put filename in cookie!
         
-        
-    return render_template('baka.html', form=form)
+    return render_template('baka.html', form=form, filename=filename)
+
 
 if __name__ == '__main__':
     manager.run()
-
-
-    
-# def check_auth(username, password):
-#     """This function is called to check if a username /
-#     password combination is valid.
-#     """
-#     return username == 'admin' and password == 'secret'
-# def authenticate():
-#     """Sends a 401 response that enables basic auth"""
-#     return Response(
-#         'Could not verify your access level for that URL.\n'
-#         'You have to login with proper credentials', 401,
-#         {'WWW-Authenticate': 'Basic realm="Login Required"'})
-
-# def requires_auth(f):
-#     @wraps(f)
-#     def decorated(*args, **kwargs):
-#         auth = request.authorization
-#         if not auth or not check_auth(auth.username, auth.password):
-#             return authenticate()
-#         return f(*args, **kwargs)
-#     return decorated

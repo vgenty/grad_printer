@@ -1,12 +1,25 @@
 {% include "layout.html" %}
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<!-- <ul class=flashes> -->
+  {% for message in messages %}
+<center><h4>{{ message }}</h4></center>
+<br>
+  {% endfor %}
+<!-- </ul> -->
+{% endif %}
+{% endwith %}
+
 {% block content %}
 <center>
   <form action="/login" method="post">
     {{ form.hidden_tag() }} <!-- why the fuck do i need this -->
-    {{ form.username }}
-    {{ form.password }}
-    {{ form.submit   }}
+    {{ form.username.label }}<br>
+    {{ form.username }}<br>
+    {{ form.password.label }}<br>
+    {{ form.password }}<br><br>
+    {{ form.submit   }}<br>
   </form>
 </center>
 {% endblock %}
