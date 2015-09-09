@@ -10,6 +10,7 @@ from flask.ext.login import login_user , logout_user , current_user , login_requ
 from flask_wtf import Form
 from flask_wtf.file import FileField
 from wtforms import SubmitField, TextField, PasswordField, validators
+from wtforms.validators import ValidationError
 from werkzeug import secure_filename
 
 # Boot
@@ -96,8 +97,21 @@ def login():
     return render_template('login.html', form=form)
 
 
+import re
+def allowed_file_types(ftypes): #fancy factory definition
+    message = 'Allowed file types are' + str(ftypes)
+
+    def _allowed_file_types(form, field):
+        m = re.search(r'.([a-z]{3})$',field.data.filename)
+        if m.group(1) not in ftypes:
+            raise ValidationError(message)
+        
+    return _allowed_file_types
+
 class ToPrintForm(Form):
-    document = FileField('Document to Print',validators=[validators.Required()])
+    document = FileField('Document to Print',validators=[validators.Required(),
+                                                         allowed_file_types(['pdf','txt'])])
+                         #allowed_max_size)
     submit   = SubmitField('Submit')
     
 @app.route('/upload',methods=['GET','POST'])
@@ -110,7 +124,7 @@ def upload():
         filename = secure_filename(form.document.data.filename)
         form.document.data.save('/home/vgenty/web/uploads/' + filename)
         session['filename'] = filename #put filename in cookie!
-        
+    
     return render_template('baka.html', form=form, filename=filename)
 
 
