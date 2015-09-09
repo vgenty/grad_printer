@@ -1,0 +1,12 @@
+{% include "layout.html" %}
+
+{% block content %}
+<center>
+  <form action="/login" method="post">
+    {{ form.hidden_tag() }} <!-- why the fuck do i need this -->
+    {{ form.username }}
+    {{ form.password }}
+    {{ form.submit   }}
+  </form>
+</center>
+{% endblock %}

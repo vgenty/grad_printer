@@ -1,0 +1,22 @@
+{% include "layout.html" %}
+
+{% block content %}
+<center>
+  {% if form.errors %}
+  <p class=error><strong>Error:</strong>
+    {% for key, value in form.errors.iteritems() %}
+    <dt>{{ key|e }}</dt>
+    <dd>{{ value|e }}</dd>
+    {% endfor %}</p>
+  {% endif %}
+  
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ form.document }}
+    <br>
+    {{ form.submit }}
+  </form>
+  
+</center>
+
+{% endblock %}
