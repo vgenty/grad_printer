@@ -110,10 +110,13 @@ def allowed_file_types(ftypes): #fancy factory definition
 
 class ToPrintForm(Form):
     document = FileField('Document to Print',validators=[validators.Required(),
-                                                         allowed_file_types(['pdf','txt'])])
+                                                         allowed_file_types(['pdf','txt','doc','docx'])])
                          #allowed_max_size)
     submit   = SubmitField('Submit')
-    
+
+import printer
+printer = printer.Printer()
+
 @app.route('/upload',methods=['GET','POST'])
 @login_required
 def upload():
@@ -124,6 +127,7 @@ def upload():
         filename = secure_filename(form.document.data.filename)
         form.document.data.save('/home/vgenty/web/uploads/' + filename)
         session['filename'] = filename #put filename in cookie!
+        printer.send('/home/vgenty/web/uploads/',filename)
     
     return render_template('baka.html', form=form, filename=filename)
 
