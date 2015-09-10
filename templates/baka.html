@@ -11,7 +11,8 @@
   {% endif %}
 
   {% if filename %}
-  <p><strong>Sucessful Upload: <font color="red">{{ filename }}</font></strong></p>
+  <p><strong>Sucessful Upload</strong></p>
+  <p><strong><font color="red">{{ filename }}</font> sent to printer.</strong></p>
   {% endif %}
   
   <form action="/upload" method="post" enctype="multipart/form-data">
