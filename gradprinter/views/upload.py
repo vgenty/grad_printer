@@ -14,8 +14,6 @@ from werkzeug import secure_filename
 import re
 import gradprinter.extern.printer as printer
 
-print app.config
-
 upload = Blueprint('upload',__name__,
                    template_folder = 'templates')
 
