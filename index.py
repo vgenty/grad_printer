@@ -21,7 +21,7 @@ import os, sys
 import printer
 
 app = Flask(__name__)
-app.config['SECRET_KEY']  = 'Bitch'
+app.config['SECRET_KEY']  = '1492aa'
 
 manager   = Manager(app)
 
