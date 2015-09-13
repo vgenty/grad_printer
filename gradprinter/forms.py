@@ -3,9 +3,10 @@ from . import app
 from flask_wtf import Form
 
 from flask_wtf.file import FileField
-from wtforms import SubmitField, TextField, PasswordField, validators
+from wtforms import SubmitField, TextField, PasswordField
+from wtforms import validators, BooleanField, IntegerField
 
-from wtforms.validators import ValidationError
+from wtforms.validators import ValidationError, NumberRange
 
 import re
 
@@ -30,4 +31,12 @@ class ToPrintForm(Form):
                          validators=[validators.Required(),
                                      allowed_file_types(app.config['ALLOWED_FILE_TYPES'])])
     submit   = SubmitField('Submit')
+
+    sides          = BooleanField('Double-sided',default=False)
+    orientation    = BooleanField('Landscape'   ,default=False)
+    
+    copies = IntegerField("Copies",
+                          validators=[validators.NumberRange(min=1,
+                                                             max=50,
+                                                             message='Max copies is 50')])
 

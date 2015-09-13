@@ -1,1 +1,1 @@
-python run.py runserver
+ipython run.py runserver
