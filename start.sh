@@ -1,1 +1,1 @@
-ipython run.py runserver
+python run.py runserver -D

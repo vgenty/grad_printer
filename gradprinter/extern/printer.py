@@ -7,14 +7,23 @@ class Printer():
     def __str__(self):
         return 'The printers name is:',self.name
 
-    def send(self,location,filename):
+    def send(self,location,filename,doublesided,landscape,copies):
         
-        the_file = "%s%s" % (location,filename)
+        options  = ''
+        options += '-# %s ' % copies
 
-        if not os.path.exists(the_file):
+        if doublesided:
+            options += '-o Duplex=DuplexNoTumble '
+
+        if landscape:
+            options += '-o landscape'
+
+        location += filename
+
+        if not os.path.exists(location):
             raise Exception('File does not exist?')
-
-        r = subprocess.check_output("lpr -P grad_printer %s" % the_file,shell=True)
+        
+        r = subprocess.check_output("lpr %s -P grad_printer %s" % (options,location),shell=True)
         d = subprocess.check_output("rm -rf %s" % the_file,shell=True)
         
         return r

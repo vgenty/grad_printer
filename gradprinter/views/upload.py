@@ -26,14 +26,13 @@ def upload_to_server():
     if form.validate_on_submit():
         filename = secure_filename(form.document.data.filename)
         form.document.data.save(app.config['UPLOAD_FOLDER'] + filename)
+        
+        #session['filename'] = filename #put filename in the damn cookie! (No necessary?)
+        
+        printer.send(location    = app.config['UPLOAD_FOLDER'],
+                     filename    = filename,
+                     doublesided = form.sides.data,
+                     landscape   = form.orientation.data,
+                     copies      = form.copies.data)
 
-        print form.copies.data
-        print form.sides.data
-        print form.orientation.data
-        
-        
-        session['filename'] = filename #put filename in the damn cookie!
-        # printer.send(app.config['UPLOAD_FOLDER'],filename,
-        #              doublesided,landscape)
-    
     return render_template('upload.html', form=form, filename=filename)
