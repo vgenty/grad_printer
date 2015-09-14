@@ -34,5 +34,6 @@ def upload_to_server():
                      doublesided = form.sides.data,
                      landscape   = form.orientation.data,
                      copies      = form.copies.data)
+        
 
     return render_template('upload.html', form=form, filename=filename)

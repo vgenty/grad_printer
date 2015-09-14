@@ -24,6 +24,9 @@ class Printer():
             raise Exception('File does not exist?')
         
         r = subprocess.check_output("lpr %s -P grad_printer %s" % (options,location),shell=True)
-        d = subprocess.check_output("rm -rf %s" % the_file,shell=True)
+        d = subprocess.check_output("rm -rf %s" % location,shell=True)
+
+        print r
+        print d
         
         return r
