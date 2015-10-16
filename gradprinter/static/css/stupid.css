@@ -1,12 +1,13 @@
 #normanlocation
 {
-    position: absolute;
-    top: 45%;
-    left: 0%;
-    display: block
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: block;
+    z-index: -1;
     max-width: 100%;
 }
 body {
     min-width:816px;
-    min-heigh:506px;
+    min-height:506px;
 }
