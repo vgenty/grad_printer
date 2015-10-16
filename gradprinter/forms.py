@@ -24,7 +24,7 @@ class LoginForm(Form):
     username = TextField('Username')
     password = PasswordField('Password')
     submit   = SubmitField('Submit')
- 
+    
 
 class ToPrintForm(Form):
     document = FileField('Document to Print',
@@ -40,3 +40,17 @@ class ToPrintForm(Form):
                                                              max=50,
                                                              message='Max copies is 50')])
 
+    page_start = TextField("Start")
+    page_end   = TextField("End")
+    
+    # page_start = IntegerField("Start")
+    # page_end   = IntegerField("End")
+    
+    # page_start = IntegerField("Start",
+    #                           validators=[validators.NumberRange(min=1,
+    #                                                              max=1000)])
+    # page_end   = IntegerField("End",
+    #                           validators=[validators.NumberRange(min=1,
+    #                                                              max=1000)])
+
+    

@@ -25,6 +25,9 @@
 	<th>Landscape:&nbsp;{{ form.orientation }}</th>
       </tr>
       <tr>
+	<th colspan="2"><br><center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page Range (optional)</center><center>Start&nbsp;{{ form.page_start(size=2) }}&nbsp;&nbsp;End&nbsp;{{ form.page_end(size=2) }}</center></th>
+      </tr>
+      <tr>
 	<th colspan="2"><center><br>Copies:&nbsp;{{ form.copies(size=1) }}</center></th>
       </tr>
     </table>

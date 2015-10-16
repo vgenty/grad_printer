@@ -1,12 +1,15 @@
 {% extends "bootstrap/base.html" %} <!-- simple CSS in site-packages/flask_bootstrap/templates/bootstrap -->
 {% block title %}Pupin Grad Printer{% endblock %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="static/css/stupid.css"/>
 <center>
-  <h1>Pupin Grad Printer</h1>
-  <br>
-  <img src="static/images/grad_printer.jpg" height="150" width="150">
-  <br>
-  <br>
+  <div class="page-header">
+    <h1>Pupin Grad Printer<small>   by vic.</small></h1>
+  </div>
+  <img src="static/images/grad_printer.png" height=150 width=150/>
+  <img src="static/images/m604.png" height=150 width=150/>
+  <br/>  <br/>
 </center>
+<img id="normanlocation" src="static/images/norman.gif"/>
 {% endblock %}
   
