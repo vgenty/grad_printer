@@ -1,4 +1,4 @@
-import os, subprocess
+import os, subprocess, time
 
 class Printer():
 
@@ -13,9 +13,8 @@ class Printer():
         # print "page_end:",page_end
         # print "type: ",type(page_start)
         # print "type: ",type(page_end)
-        
+
         options  = ''
-        options += '-# %s ' % copies
 
         if doublesided:
             options += '-o Duplex=DuplexNoTumble '
@@ -31,11 +30,17 @@ class Printer():
                 options += ''
             
         location += filename
-
+        
         if not os.path.exists(location):
             raise Exception('File does not exist?')
-        
-        r = subprocess.check_output("lpr %s -P grad_printer %s" % (options,location),shell=True)
+
+        r = None;
+
+        for i in xrange(int(copies)):
+            r = subprocess.check_output("lpr %s -P grad_printer %s" % (options,location),shell=True)
+            time.sleep(0.01)
+
+
         d = subprocess.check_output("rm -rf %s" % location,shell=True)
         
         return r

@@ -28,7 +28,6 @@ def upload_to_server():
         form.document.data.save(app.config['UPLOAD_FOLDER'] + filename)
         
         #session['filename'] = filename #put filename in the damn cookie! (No necessary?)
-        
         printer.send(location    = app.config['UPLOAD_FOLDER'],
                      filename    = filename,
                      doublesided = form.sides.data,
